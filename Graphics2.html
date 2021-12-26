@@ -386,7 +386,6 @@ if(camera.position.z<=38&&camera.position.z>=31.5){
     if(camera.position.z<38.5&&camera.position.z>37.5){
       camera.position.z=37.5;
     }
-    
   }
 
   if(camera.position.z<=38&&camera.position.z>=31.5){
@@ -520,20 +519,102 @@ if(camera.position.z<=31.5&&camera.position.z>=14.5){
       camera.position.x=3.5;
     }
   }
+  //tamn torka
+   if(camera.position.x>=-14.5&&camera.position.x<=15.5){
+    
+    if(camera.position.z>-4.5&&camera.position.z<-3.5){
+      camera.position.z=-3.5;
+    }
+     if(camera.position.z<2.5&&camera.position.z>1.5){
+      camera.position.z=1.5;
+    }
+    
+  }
 
+
+
+
+
+  
+
+
+
+  //awel tor2a yones
+if(camera.position.x>=32.5&&camera.position.x<=39.5){
+    
+    if(camera.position.z>-40.5&&camera.position.z<-39.5){
+      camera.position.z=-39.5;
+    }
+    if(camera.position.z>-34.5&&camera.position.z<-33.5){
+      camera.position.z=-34.5;
+    }
+  }
+//awel lafa yones
+if(camera.position.z<=-33.5&&camera.position.z>=-40.5){
+    
+    if(camera.position.x>44.5&&camera.position.x<45.5){
+      camera.position.x=44.5;
+    }
+ }
+
+ if(camera.position.x>=38.5&&camera.position.x<=45.5){
+    if(camera.position.z>-40.5&&camera.position.z<-39.5){
+      camera.position.z=-39.5;
+    }
+    
+  }
+  //tany tor2a yones
+  if(camera.position.z<=-15.5&&camera.position.z>=-34.5){
+    
+    if(camera.position.x>44.5&&camera.position.x<45.5){
+      camera.position.x=44.5;
+    }
+    if(camera.position.x>38.5&&camera.position.x<39.5){
+      camera.position.x=39.5;
+    }
+  }
+  //tany lafa yones
+  if(camera.position.x>=38.5&&camera.position.x<=45.5){
+    if(camera.position.z>-10.5&&camera.position.z<-9.5){
+      camera.position.z=-10.5;
+    }
+  }
+
+  if(camera.position.z>=-17.5&&camera.position.z<=-9.5){
+    
+    if(camera.position.x>44.5&&camera.position.x<45.5){
+      camera.position.x=44.5;
+    }
+  }
+  //talet tor2a w albar deadend yones
+  if(camera.position.x>=26.5&&camera.position.x<=38.5){
+    
+    if(camera.position.z>-10.5&&camera.position.z<-9.5){
+      camera.position.z=-10.5;
+    }
+    if(camera.position.z<-15.5&&camera.position.z>-16.5){
+      camera.position.z=-15.5;
+    }
+    
+  }
+  if (camera.position.z<=-9.5&&camera.position.z>=-16.5) {
+  if(camera.position.x<27.5&&camera.position.x>26.5){
+      camera.position.x=27.5;
+    }
+  }  
 }
 ///////////////////////////////////////////////////////////
 const geometry = new THREE.BoxGeometry( 1, 10, 1 );
 const material = new THREE.MeshBasicMaterial( {color:'blue'} );
 const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
-cube.position.x=15.5;
+cube.position.x=38.5;
 cube.position.z=-16.5;
  const geometry2 = new THREE.BoxGeometry( 1, 10, 1 );
 const material2 = new THREE.MeshBasicMaterial( {color:'red'} );
 const cube2 = new THREE.Mesh( geometry2, material2 );
 scene.add( cube2 );
-cube2.position.x=2.5;
+cube2.position.x=26.5;
 cube2.position.z=-9.5;
 //////////////////////////////////////////////////////////////
  function calcAngleDegrees(y, x) {
