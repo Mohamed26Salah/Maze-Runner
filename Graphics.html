@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html>
+
+ <style>
+			body { margin: 0; }
+ </style>
+<head>
+	<title>Maze Runner</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="main.css">
+
+  <style>
+      #blocker {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+      }
+
+      #instructions {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        text-align: center;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    </style>
+</head>
+<body>
+<div id="blocker">
+      <div id="instructions">
+        <p style="font-size:36px">
+          Click to play
+        </p>
+        <p>
+          Move: WASD<br/>
+          Jump: SPACE<br/>
+          Ultimate: M<br/>
+          Run : Shift<br/>
+          Look: MOUSE
+        </p>
+      </div>
+    </div>
+
+<!--  <script src="js/Detector.js"></script>
+ <script src="js/Stats.js"></script> -->
+  <script type="module">
+  import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.124.0/build/three.module.js';
+  import {FirstPersonControls} from './jsm/controls/FirstPersonControls3.js';
+  import { PointerLockControls } from './jsm/controls/PointerLockControls.js';
+  import { GLTFLoader } from './jsm/loaders/GLTFLoader.js';
+
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, .1, 1000);
+let renderer = new THREE.WebGLRenderer();
+       
+var shifft=40;
+var x=10;
+var y=10;
+const clock = new THREE.Clock();
+
+let controls;
+controls= new FirstPersonControls(camera,renderer.domElement);
+controls.movementSpeed = 7;
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+ const audioLoader = new THREE.AudioLoader();
+ const listener = new THREE.AudioListener();
+ const sound = new THREE.Audio( listener );
+ camera.add( listener );
+
+
+ const audioLoader1 = new THREE.AudioLoader();
+ const listener1 = new THREE.AudioListener();
+ const sound1 = new THREE.Audio( listener1 );
+ camera.add( listener1 );
+
+var disx=0;
+var disz=0;
+// var skyGeo = new THREE.SphereGeometry(500, 25, 25); 
+// var loader  = new THREE.TextureLoader(),
+//        texture = loader.load( "screenshots/galax.jpg" );
+
+// var material = new THREE.MeshPhongMaterial({ 
+//         map: texture,
+// });
+//  var sky = new THREE.Mesh(skyGeo, material);
+//     sky.material.side = THREE.BackSide;
+//     scene.add(sky);
+
+let materialArray = [];
+        let texture_ft = new THREE.TextureLoader().load( 'screenshots/redeclipse_ft.png');
+        let texture_bk = new THREE.TextureLoader().load( 'screenshots/redeclipse_bk.png');
+        let texture_up = new THREE.TextureLoader().load( 'screenshots/redeclipse_up.png');
+        let texture_dn = new THREE.TextureLoader().load( 'screenshots/redeclipse_dn.png');
+        let texture_rt = new THREE.TextureLoader().load( 'screenshots/redeclipse_rt.png');
+        let texture_lf = new THREE.TextureLoader().load( 'screenshots/redeclipse_lf.png');
+          
+        materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
+        materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));
+        materialArray.push(new THREE.MeshBasicMaterial( { map: texture_up }));
+        materialArray.push(new THREE.MeshBasicMaterial( { map: texture_dn }));
+        materialArray.push(new THREE.MeshBasicMaterial( { map: texture_rt }));
+        materialArray.push(new THREE.MeshBasicMaterial( { map: texture_lf }));
+   
+        for (let i = 0; i < 6; i++)
+           materialArray[i].side = THREE.BackSide;
+        let skyboxGeo = new THREE.BoxGeometry( 1000, 1000, 1000);
+        let skybox = new THREE.Mesh( skyboxGeo, materialArray );
+        scene.add( skybox );  
+
+
+          stop(true);
+let controls2;
+controls2= new PointerLockControls(camera,renderer.domElement);
+const blocker = document.getElementById( 'blocker' );
+        const instructions = document.getElementById( 'instructions' );
+
+        instructions.addEventListener( 'click', function () {
+          controls2.lock();
+        } );
+
+        controls2.addEventListener( 'lock', function () {
+          instructions.style.display = 'none';
+          blocker.style.display = 'none';
+          controls.enabled=true;
+          stop(false);
+          audioLoader.load( 'sounds/Come-Play-with-Me.mp3', function( buffer ) {
+            sound.setBuffer( buffer );
+            sound.setLoop( true );
+            sound.setVolume( 0.2 );
+            sound.play();
+          });
+           audioLoader1.load( 'sounds/Scary.mp3', function( buffer ) {
+            sound1.setBuffer( buffer );
+            sound1.setLoop( true );
+            sound1.setVolume( 0.2 );
+            sound1.play();
+          });
+        } );
+
+        controls2.addEventListener( 'unlock', function () {
+          blocker.style.display = 'block';
+          instructions.style.display = '';
+          controls.enabled=false;
+            stop(true);
+            audioLoader.load( 'sounds/Come-Play-with-Me.mp3', function( buffer ) {
+            sound.setBuffer( buffer );
+            // sound.setLoop( true );
+            sound.setVolume( 0.2 );
+            sound.pause();
+          });
+            audioLoader1.load( 'sounds/Scary.mp3', function( buffer ) {
+            sound1.setBuffer( buffer );
+            // sound1.setLoop( true );
+            sound1.setVolume( 0.2 );
+            sound1.pause();
+          });
+          
+        } );
+
+        scene.add( controls2.getObject() );
+///////////////////////////////////////////////////////////////////////////////////
+
+   var emptyObject = new THREE.Object3D();
+    emptyObject.position.x = 0;
+    emptyObject.position.y = -0.01;
+    emptyObject.position.z = 1;
+  
+const loader1 = new GLTFLoader();
+        loader1.load('/js/examples/textures/mieruko-chan_shrine_ghost.glb', function (gltf) {
+           emptyObject.add(gltf.scene);
+           scene.add(emptyObject);
+           var model = gltf.scene;
+           model.position.x=0;
+           model.position.y=-1.1;
+           model.position.z=1;
+           model.scale.x=0.006;
+           model.scale.y=0.006;
+           model.scale.z=0.006;
+           model.receiveShadow = true;
+           model.castShadow = true;
+           });
+
+////////////////////////////////////////////////////////////////////////////
+const loader2 = new GLTFLoader();
+        loader2.load('/js/examples/textures/simpleMaze.glb', function (gltf) {
+           scene.add(gltf.scene);
+           var model = gltf.scene;
+           model.position.x=-60;
+           model.position.y=2;
+           model.position.z=-55;
+           model.scale.x=3;
+           model.scale.y=3;
+           model.scale.z=3;
+           model.rotation.x=0;
+           model.rotation.y=0;
+           model.rotation.z=0;
+           model.receiveShadow = true;
+           model.castShadow = true;
+           });
+
+////////////////////////////////////////////////////////////////////////////
+
+let player = {
+  height: 1,
+  turnSpeed: .1,
+  speed: 0.05,
+  jumpHeight: .2,
+  gravity: .01,
+  velocity: 0,
+  playerJumps: false
+};
+let ult2 = {
+  ult2Jumps: false
+};
+
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+scene.background = new THREE.Color("black");
+document.body.appendChild(renderer.domElement);
+
+window.addEventListener('resize', () => {
+  let w = window.innerWidth,
+      h = window.innerHeight;
+  
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+
+});
+
+// Camera:Setup
+camera.position.set(30, player.height, 85);
+camera.lookAt(new THREE.Vector3(0, player.height, 0));
+//////////////////////////////////////////////////////
+let Box = new THREE.BoxGeometry(3, 3, 3);
+let BoxMaterial2 = new THREE.MeshBasicMaterial({ color: "red"});
+let Ability = new THREE.Mesh(Box, BoxMaterial2);
+
+Ability.position.x = Math.random() * 200 - 100;
+Ability.position.y = 1.5;
+Ability.position.z = Math.random() * 200 - 100;
+scene.add(Ability);
+function highJump(){
+  if(Math.abs(camera.position.x-Ability.position.x)<1&&Math.abs(camera.position.z-Ability.position.z)<1){
+    if(camera.position.y-Ability.position.y<0.5){
+    if(ult2.jumps) return false;
+    ult2.jumps = true;
+    player.velocity = -player.jumpHeight;
+    //camera.position.y=0;
+    camera.lookAt(new THREE.Vector3(0, -100, 0));
+    var gravity2 = -1;
+    player.velocity += gravity2;
+    camera.position.y -= player.velocity;
+   }
+ }
+}
+/////////////////////////////////////////////////////
+let Box2 = new THREE.BoxGeometry(3, 3, 3);
+let BoxMaterial3 = new THREE.MeshBasicMaterial({ color: "white"});
+let Ability2 = new THREE.Mesh(Box2, BoxMaterial3);
+
+Ability2.position.x = Math.random() * 200 - 100;
+Ability2.position.y = 1.5;
+Ability2.position.z = Math.random() * 200 - 100;
+scene.add(Ability2);
+function HighSpeed(){
+  if(Math.abs(camera.position.x-Ability2.position.x)<1&&Math.abs(camera.position.z-Ability2.position.z<1)){
+    shifft=100;
+    for(var i=100;i>40;i--){
+      shifft--;
+    }
+  }
+}
+//////////////////////////////////////////////////////
+// Object:Box1
+let BoxGeometry1 = new THREE.BoxGeometry(1, 1, 1);
+let BoxMaterial1 = new THREE.MeshBasicMaterial({ color: "white"});
+let Box1 = new THREE.Mesh(BoxGeometry1, BoxMaterial1);
+
+Box1.position.y = 10;
+Box1.position.x = 2;
+
+Box1.scale.x = Box1.scale.y = Box1.scale.z = .25;
+scene.add(Box1);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Object:Plane
+let PlaneGeometry1 = new THREE.PlaneGeometry(100, 100);
+let PlaneMaterial1 = new THREE.MeshPhongMaterial({ color: "white"});
+let Plane1 = new THREE.Mesh(PlaneGeometry1, PlaneMaterial1);
+Plane1.position.y=-1.1;
+Plane1.rotation.x -= Math.PI / 2;
+Plane1.scale.x = 2;
+Plane1.scale.y = 2;
+Plane1.receiveShadow = true;
+scene.add(Plane1);
+
+// Object:Light:1
+let light1 = new THREE.PointLight("white", 1);
+light1.position.set(2, 10, 0);
+light1.castShadow = true;
+light1.shadow.camera.near = 2.5;
+scene.add(light1);
+
+// Object:Light:2
+let light2 = new THREE.AmbientLight("white", .15);
+light2.position.set(2, 10, 0);
+scene.add(light2);
+////////////////////////////////////////////////////////////////////
+
+// Controls:Listeners
+document.addEventListener('keydown', ({ keyCode }) => { controls[keyCode] = true });
+document.addEventListener('keyup', ({ keyCode }) => { controls[keyCode] = false });
+
+// ...
+ function control() {
+ //Controls:Engine 
+   if(controls[32]) { // space
+      // if(player.jumps) return false;
+      player.jumps = true;
+      player.velocity = -player.jumpHeight;
+    }
+    // if(controls[16]) { // shift(run)
+    //   shifft=80;
+    // }
+    // else{
+    //   shifft=40;
+    // }
+    // ult();
+    
+  }
+
+
+
+
+//////////////////////////////////////////////////////////
+function collision(){
+  //elmd5l
+  if(camera.position.z<=57&&camera.position.z>=38){
+    if(camera.position.x<33.5&&camera.position.x>32.5){
+      camera.position.x=32.6;
+    }
+    if(camera.position.x>26.5&&camera.position.x<27.5){
+      camera.position.x=27.5;
+    }
+  }
+
+//awl lfa ymeen 
+if(camera.position.z<=38&&camera.position.z>=31.5){
+    
+    if(camera.position.x>26.5&&camera.position.x<27.5){
+      camera.position.x=27.5;
+    }
+  }
+
+  if(camera.position.x<=35&&camera.position.x>=20){
+    if(camera.position.z<32.5&&camera.position.z>31.5){
+      camera.position.z=32.5;
+    }
+    
+  }
+
+//awl torka b3d awl lfa ymeen
+  if(camera.position.x<=40&&camera.position.x>=32){
+    if(camera.position.z<38.5&&camera.position.z>37.5){
+      camera.position.z=37.6;
+    }
+    if(camera.position.z>31.5&&camera.position.z<32.5){
+      camera.position.z=32.5;
+    }
+  }
+  //tany lfa
+   if(camera.position.x<=45&&camera.position.x>=40){
+    if(camera.position.z<38.5&&camera.position.z>37.5){
+      camera.position.z=37.5;
+    }
+    
+  }
+
+  if(camera.position.z<=38&&camera.position.z>=31.5){
+    
+    if(camera.position.x>44.5&&camera.position.x<45.5){
+      camera.position.x=44.5;
+    }
+  }
+//tany torka
+if(camera.position.z<=31.5&&camera.position.z>=14.5){
+    
+    if(camera.position.x>44.5&&camera.position.x<45.5){
+      camera.position.x=44.5;
+    }
+    if(camera.position.x>38.5&&camera.position.x<39.5){
+      camera.position.x=39.5;
+    }
+  }
+//talt lafa 
+ if(camera.position.z<=14.5&&camera.position.z>=8){
+    
+    if(camera.position.x>44.5&&camera.position.x<45.5){
+      camera.position.x=44.5;
+    }
+ }
+
+ if(camera.position.x>=39.5&&camera.position.x<=45){
+    if(camera.position.z>7.5&&camera.position.z<8.5){
+      camera.position.z=8.5;
+    }
+    
+  }
+  //talt torka
+  if(camera.position.x>=33.5&&camera.position.x<=39.5){
+    
+    if(camera.position.z<14.5&&camera.position.z>13.5){
+      camera.position.z=13.5;
+    }
+    if(camera.position.z>7.5&&camera.position.z<8.5){
+      camera.position.z=8.5;
+    }
+  }
+  //rab3 lfa
+  if(camera.position.x>=26.5&&camera.position.x<=33.5){
+     if(camera.position.z<14.5&&camera.position.z>13.5){
+      camera.position.z=13.5;
+    }
+    
+  }
+  if(camera.position.z<=13.5&&camera.position.z>=8){
+    
+    if(camera.position.x>26.5&&camera.position.x<27.5){
+      camera.position.x=27.5;
+    }
+ }
+ //rabe3 tor2a
+  if(camera.position.z<=8.5&&camera.position.z>=1.5){
+    if(camera.position.x<33.5&&camera.position.x>32.5){
+      camera.position.x=32.6;
+    }
+    if(camera.position.x>26.5&&camera.position.x<27.5){
+      camera.position.x=27.5;
+    }
+  }
+  //5ames lafa
+  if(camera.position.z<=8&&camera.position.z>=-4){
+    
+    if(camera.position.x>32.5&&camera.position.x<33.5){
+      camera.position.x=32.5;
+    }
+ }
+
+ if(camera.position.x>=26.5&&camera.position.x<=32.5){
+    if(camera.position.z>-4.5&&camera.position.z<-3.5){
+      camera.position.z=-3.5;
+    }
+    
+  }
+  //5ames tor2a
+  if(camera.position.x>=20.5&&camera.position.x<=27.5){
+    
+    if(camera.position.z>-4.5&&camera.position.z<-3.5){
+      camera.position.z=-3.5;
+    }
+    if(camera.position.z<2.5&&camera.position.z>1.5){
+      camera.position.z=1.5;
+    }
+  }
+  //sads lafa
+   if(camera.position.x<=21.5&&camera.position.x>=14.5){
+    
+    if(camera.position.z<2.5&&camera.position.z>1.5){
+      camera.position.z=1.5;
+    }
+ }
+ //sads torka ymeen 
+   if(camera.position.z<=-4.5&&camera.position.z>=-9.5){
+    if(camera.position.x<15.5&&camera.position.x>14.5){
+      camera.position.x=15.5;
+    }
+    if(camera.position.x>20.5&&camera.position.x<21.5){
+      camera.position.x=20.5;
+    }
+  }
+ //sab3 lfa
+   if(camera.position.z<=-9.5&&camera.position.z>=-16.5){
+    
+    if(camera.position.x>20.5&&camera.position.x<21.5){
+      camera.position.x=20.5;
+    }
+  }
+  if(camera.position.x>=15.5&&camera.position.x<=20.5){
+    if(camera.position.z<-15.5&&camera.position.z>-16.5){
+      camera.position.z=-15.5;
+    }
+    
+  }
+  
+}
+///////////////////////////////////////////////////////////
+const geometry = new THREE.BoxGeometry( 1, 10, 1 );
+const material = new THREE.MeshBasicMaterial( {color:'blue'} );
+const cube = new THREE.Mesh( geometry, material );
+scene.add( cube );
+cube.position.x=15.5;
+cube.position.z=-15.5;
+ const geometry2 = new THREE.BoxGeometry( 1, 10, 1 );
+const material2 = new THREE.MeshBasicMaterial( {color:'red'} );
+const cube2 = new THREE.Mesh( geometry2, material2 );
+scene.add( cube2 );
+cube2.position.x=20.5;
+cube2.position.z=-10.5;
+//////////////////////////////////////////////////////////////
+ function calcAngleDegrees(y, x) {
+  return -Math.atan2(y-emptyObject.position.z,x-emptyObject.position.x)+Math.PI/2;
+}
+
+// function ult(){
+//   if(controls[77]) { // M
+//     if(ult2.jumps) return false;
+//     ult2.jumps = true;
+//     player.velocity = -player.jumpHeight;
+//     //camera.position.y=0;
+//     camera.lookAt(new THREE.Vector3(0, -100, 0));
+//     var gravity2 = -1;
+//     player.velocity += gravity2;
+//     camera.position.y -= player.velocity;
+//     }
+// }
+function enemy2(x,y){
+
+   var ccc=clock.getDelta();
+  var camera1 = {
+        x:camera.position.x,
+        z:camera.position.z
+  };
+  var enemy = {
+    x:emptyObject.position.x,
+    z:emptyObject.position.z
+  };
+  var disx = camera1.x-enemy.x;
+  var disz = camera1.z-enemy.z;
+  var length=Math.sqrt(Math.pow(disx,2)+Math.pow(disz,2));
+   if(length){
+      disx /= length;
+      disz /= length;
+   }
+  emptyObject.position.x += disx * ccc * x;
+  emptyObject.position.z += disz * ccc * y;
+  if(length<2){
+    if(camera.position.y-emptyObject.position.y<2){
+    // confirm("hhh 5srt ya fla7");
+    stop(true);
+    var txt;
+  if (confirm("GameOver")) {
+    location.reload();
+  } else {
+    location.reload();
+  }
+  document.getElementById("demo").innerHTML = txt;
+   }
+  }
+}
+  
+///////////////////////////////////////////////////////////////////////
+function stop(z){
+  if(z==true){
+    x=0;
+    y=0;
+  }
+  else{
+    x=10;
+    y=10;
+  }
+}
+///////////////////////////////////////////////////////////////////////
+function ixMovementUpdate() {
+   player.velocity += player.gravity;
+   camera.position.y -= player.velocity;
+  
+   if(camera.position.y < player.height) {
+      camera.position.y = player.height;
+      player.jumps = false;
+      ult2.jumps = false;
+    }
+}
+ //////////////////////////////////////////////////////////////////////////
+//  function collison(){
+//  var originPoint = camera.position.clone();
+
+//   // clearText();
+  
+//   for (var vertexIndex = 0; vertexIndex < camera.position.length; vertexIndex++)
+//   {   
+//     var localVertex = camera.geometry.vertices[vertexIndex].clone();
+//     var globalVertex = localVertex.applyMatrix4( camera.matrix );
+//     var directionVector = globalVertex.sub( camera.position );
+    
+//     var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
+//     var collisionResults = ray.intersectObjects( collidableMeshList );
+//     if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ) {
+//       console.log("Hit");
+//     }
+//   } 
+
+//   // controls.update();
+//   // stats.update();
+// }
+
+ ///////////////////////////////////////////////////////////////////////////
+
+
+// const raycaster = new THREE.Raycaster();
+// const mouse = new THREE.Vector2();
+
+// function onMouseMove( event ) {
+
+//   // calculate mouse position in normalized device coordinates
+//   // (-1 to +1) for both components
+
+//   mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+//   mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+// }
+
+// function render2() {
+
+//   // update the picking ray with the camera and mouse position
+//   raycaster.setFromCamera( mouse, camera );
+
+//   // calculate objects intersecting the picking ray
+//   const intersects = raycaster.intersectObjects( scene.children );
+
+//   for ( let i = 0; i < intersects.length; i ++ ) {
+
+//     intersects[ i ].object.material.transparent = true;
+//     intersects[ i ].object.material.opacity =0.5;
+
+//   }
+
+//   renderer.render( scene, camera );
+
+// }
+// function reset(){
+//   for(let i=0;i<scene.children.length;i++){
+//     if(scene.children[i].material){
+//       scene.children[i].material.opacity=1.0;
+//     }
+//   }
+// }
+
+// window.addEventListener( 'mousemove', onMouseMove, false );
+
+
+ ///////////////////////////////////////////////////////////////////////////
+
+function ixLightcubeAnimation() {
+  let a = .01;
+  Box1.rotation.x += a;
+  Box1.rotation.y += a;
+  Ability.rotation.x += a;
+  Ability.rotation.y += a;
+  Ability2.rotation.x += a;
+  Ability2.rotation.y += a;
+}
+
+function update() {
+  control();
+  ixMovementUpdate();
+  ixLightcubeAnimation();
+  // collison();
+  collision();
+  
+}
+
+function render() {
+  renderer.render(scene, camera);
+  controls.update( clock.getDelta() * 3);
+}
+
+function loop() {
+  
+  emptyObject.rotation.y=(calcAngleDegrees(camera.position.z,camera.position.x));
+  // enemy2(x,y);
+  requestAnimationFrame(loop);
+  update();
+   render();
+  // reset();
+  // render2();
+  highJump();
+  HighSpeed();
+}
+
+loop();
+
+</script>
+</body>
+</html>
