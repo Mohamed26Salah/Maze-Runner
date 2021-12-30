@@ -240,7 +240,7 @@ window.addEventListener('resize', () => {
 });
 
 // Camera:Setup
-camera.position.set(9.5, player.height, -24);
+camera.position.set(-41.5, player.height, -60);
 camera.lookAt(new THREE.Vector3(0, player.height, 0));
 //////////////////////////////////////////////////////
 let Box = new THREE.BoxGeometry(3, 3, 3);
@@ -763,20 +763,197 @@ if(camera.position.z<=-33.5&&camera.position.z>=-40.5){
     }
   }  
   /////////////////////////////////////////////////////
+  //new start
+  //awel tor2a
+if(camera.position.z<=-39.5&&camera.position.z>=-58.5){
+    
+    if(camera.position.x>-45.5&&camera.position.x<-44.5){
+      camera.position.x=-44.5;
+    }
+    if(camera.position.x<-38.5&&camera.position.x>-39.5){
+      camera.position.x=-39.5;
+    }
+  }
+  //awel lafa
+  if(camera.position.x<=-38.5&&camera.position.x>=-45.5){
+     
+    if(camera.position.z>-34.5&&camera.position.z<-33.5){
+      camera.position.z=-34.5;
+    }
+  }
+  if(camera.position.z<=-33.5&&camera.position.z>=-39.5){
+     
+    if(camera.position.x<-38.5&&camera.position.x>-39.5){
+      camera.position.x=-39.5;
+    }
+  }
+  //tany tor2a
+  if(camera.position.x>=-51.5&&camera.position.x<=-45.5){
+    
+    if(camera.position.z>-34.5&&camera.position.z<-33.5){
+      camera.position.z=-34.5;
+    }
+    if(camera.position.z>-40.5&&camera.position.z<-39.5){
+      camera.position.z=-39.5;
+    }
+  }
+  //tany lafa
+  if(camera.position.z<=-33.5&&camera.position.z>=-40.5){
+      if(camera.position.x>-57.5&&camera.position.x<-56.5){
+      camera.position.x=-56.5;
+    }
+  }
+   if(camera.position.x<=-50.5&&camera.position.x>=-57.5){
+     if(camera.position.z>-40.5&&camera.position.z<-39.5){
+      camera.position.z=-39.5;
+    }
+  }
+  //talet tor2a
+if(camera.position.z<=-27.5&&camera.position.z>=-33.5){
+    
+    if(camera.position.x>-57.5&&camera.position.x<-56.5){
+      camera.position.x=-56.5;
+    }
+    if(camera.position.x<-50.5&&camera.position.x>-51.5){
+      camera.position.x=-51.5;
+    }
+  }
+  //awel tkatoo3
+  if(camera.position.z<=-20.5&&camera.position.z>=-28.5){
+      if(camera.position.x>-57.5&&camera.position.x<-56.5){
+      camera.position.x=-56.5;
+    }
+  }
+   //talet tor2a w awel deadend
+   if(camera.position.z>=-22.5&&camera.position.z<=-9.5){
+    
+    if(camera.position.x>-57.5&&camera.position.x<-56.5){
+      camera.position.x=-56.5;
+    }
+    if(camera.position.x<-50.5&&camera.position.x>-51.5){
+      camera.position.x=-51.5;
+    }
+    
+  }
+  if (camera.position.x<=-50.5&&camera.position.x>=-57.5) {
+  if(camera.position.z<-9.5&&camera.position.z>-10.5){
+      camera.position.z=-10.5;
+    }
+  }  
+  //rabe3 tor2a
+if(camera.position.x>=-51.5&&camera.position.x<=-32.5){
+    
+    if(camera.position.z>-22.5&&camera.position.z<-21.5){
+      camera.position.z=-22.5;
+    }
+    if(camera.position.z>-28.5&&camera.position.z<-27.5){
+      camera.position.z=-27.5;
+    }
+  }
+  //tany tkato3
+   if(camera.position.x<=-26.5&&camera.position.x>=-32.5){
+     if(camera.position.z>-28.5&&camera.position.z<-27.5){
+      camera.position.z=-27.5;
+    }
+  }
+  //tkmlet rabe3 tor2a b3d el tkato3
+  if(camera.position.x>=-27.5&&camera.position.x<=-20.5){
+    
+    if(camera.position.z>-22.5&&camera.position.z<-21.5){
+      camera.position.z=-22.5;
+    }
+    if(camera.position.z>-28.5&&camera.position.z<-27.5){
+      camera.position.z=-27.5;
+    }
+  } 
+  //talet lafa
+  if(camera.position.x>=-21.5&&camera.position.x<=-14.5){
+    if(camera.position.z>-22.5&&camera.position.z<-21.5){
+      camera.position.z=-22.5;
+    }
+  }
+
+  if(camera.position.z>=-28.5&&camera.position.z<=-21.5){
+    
+    if(camera.position.x>-15.5&&camera.position.x<-14.5){
+      camera.position.x=-15.5;
+    }
+  }
+  //5ames tor2a
+  if(camera.position.z<=-27.5&&camera.position.z>=-34.5){
+    
+    if(camera.position.x>-21.5&&camera.position.x<-20.5){
+      camera.position.x=-20.5;
+    }
+    if(camera.position.x>-15.5&&camera.position.x<-14.5){
+      camera.position.x=-15.5;
+    }
+  }
+  //talet tkato3
+  if(camera.position.z<=-33.5&&camera.position.z>=-40.5){
+     
+   if(camera.position.x>-15.5&&camera.position.x<-14.5){
+      camera.position.x=-15.5;
+    }
+  }
+  //tany deadend
+  if(camera.position.x>-33.5&&camera.position.x<=-20.5){
+    
+    if(camera.position.z>-40.5&&camera.position.z<-39.5){
+      camera.position.z=-39.5;
+    }
+    if(camera.position.z<-33.5&&camera.position.z>-34.5){
+      camera.position.z=-34.5;
+    }
+    
+  }
+  if (camera.position.z<=-33.5&&camera.position.z>=-40.5) {
+  if(camera.position.x<-32.5&&camera.position.x>-33.5){
+      camera.position.x=-32.5;
+    }
+  }  
+  //talet deadend
+  if(camera.position.z<=-40.5&&camera.position.z>=-52.5){
+    
+    if(camera.position.x>-21.5&&camera.position.x<-20.5){
+      camera.position.x=-20.5;
+    }
+    if(camera.position.x>-15.5&&camera.position.x<-14.5){
+      camera.position.x=-15.5;
+    }
+  }
+  if (camera.position.x<=-14.5&&camera.position.x>=-21.5) {
+  if(camera.position.z>-52.5&&camera.position.z<-51.5){
+      camera.position.z=-51.5;
+    }
+  }   
+
+  /////////////////////////////////////////
+  //new again
+  //awel tor2a
+  if(camera.position.z<=8.5&&camera.position.z>=-21.5){
+    
+    if(camera.position.x>-33.5&&camera.position.x<-32.5){
+      camera.position.x=-32.5;
+    }
+    if(camera.position.x<-26.5&&camera.position.x>-27.5){
+      camera.position.x=-27.5;
+    }
+  }
 }
 ///////////////////////////////////////////////////////////
 const geometry = new THREE.BoxGeometry( 1, 10, 1 );
 const material = new THREE.MeshBasicMaterial( {color:'blue'} );
 const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
-cube.position.x=32.5;
-cube.position.z=-34.5;
+cube.position.x=-33.5;
+cube.position.z=8.5;
  const geometry2 = new THREE.BoxGeometry( 1, 10, 1 );
 const material2 = new THREE.MeshBasicMaterial( {color:'red'} );
 const cube2 = new THREE.Mesh( geometry2, material2 );
 scene.add( cube2 );
-cube2.position.x=27.5;
-cube2.position.z=-40.5;
+cube2.position.x=-26.5;
+cube2.position.z=-21.5;
 //////////////////////////////////////////////////////////////
  function calcAngleDegrees(y, x) {
   return -Math.atan2(y-emptyObject.position.z,x-emptyObject.position.x)+Math.PI/2;
