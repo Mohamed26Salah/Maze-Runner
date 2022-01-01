@@ -328,7 +328,7 @@ document.addEventListener('keyup', ({ keyCode }) => { controls[keyCode] = false 
  function control() {
  //Controls:Engine 
    if(controls[32]) { // space
-      // if(player.jumps) return false;
+      if(player.jumps) return false;
       player.jumps = true;
       player.velocity = -player.jumpHeight;
     }
@@ -1461,13 +1461,13 @@ function update() {
 
 function render() {
   renderer.render(scene, camera);
-  controls.update( clock.getDelta() * 3);
+  controls.update( clock.getDelta() * shifft);
 }
 
 function loop() {
   
   emptyObject.rotation.y=(calcAngleDegrees(camera.position.z,camera.position.x));
-  // enemy2(x,y);
+   enemy2(x,y);
   requestAnimationFrame(loop);
   update();
    render();
